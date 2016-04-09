@@ -1,2 +1,2 @@
 # JourneyPlanner
-Mobile/Desktop that let you plan your weekend or holiday
+Mobile/Desktop app that let you plan your weekend or holiday
