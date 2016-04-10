@@ -6,7 +6,7 @@ import modConfigRouter from './router.config.ts';
 import modRun from './run.ts';
 import modHome from '../home/index.ts';
 // import modBattery from '../battery/index.ts';
-// import modCamera from '../camera/index.ts';
+import modCamera from '../camera/index.ts';
 import modNetwork from '../network/index.ts';
 import modMenu from '../menu/index.ts';
 
@@ -20,7 +20,7 @@ let mod = angular.module('crossPlatform', [
     modHome.name,
     modMenu.name,
     // modBattery.name,
-    // modCamera.name,
+    modCamera.name,
     modNetwork.name
 ]);
 // ROUTER CONFIG

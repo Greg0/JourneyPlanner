@@ -19,12 +19,12 @@
     "url": "git+https://github.com/Greg0/JourneyPlanner.git"
   },
   "author": [
-      {
-        "name": "Grzegorz Kuźnik",
-        "email": "gerg0sz92@gmail.com"
-      },
-      "shprink <contact@julienrenaux.fr> (http://julienrenaux.fr/)"
-    ],
+    {
+      "name": "Grzegorz Kuźnik",
+      "email": "gerg0sz92@gmail.com"
+    },
+    "shprink <contact@julienrenaux.fr> (http://julienrenaux.fr/)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Greg0/JourneyPlanner/issues"
@@ -33,6 +33,7 @@
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
     "cordova": "^5.4.1",
+    "cordova-plugin-browsersync": "^0.1.5",
     "css-loader": "^0.23.0",
     "electron-prebuilt": "^0.36.0",
     "file-loader": "^0.8.5",
@@ -57,7 +58,8 @@
     "org.apache.cordova.camera",
     "cordova-plugin-network-information",
     "cordova-plugin-spinner-dialog",
-    "cordova-plugin-browsersync"
+    "cordova-plugin-browsersync",
+    "cordova-plugin-geolocation"
   ],
   "cordovaPlatforms": [
     "android",
