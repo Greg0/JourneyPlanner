@@ -3,11 +3,11 @@ export default function($stateProvider: angular.ui.IStateProvider, $urlRouterPro
     $stateProvider.state('app.home', {
         url: "/home",
         views: {
-            'content@app': {
-                template: require("./index.html"),
-                controller: "HomeController as homeCtrl"
-            }
-        }
+          'tab-home': {
+            template: require("./index.html"),
+            controller: "HomeController as homeCtrl"
+         }
+       }
     });
     $urlRouterProvider.otherwise("/home");
 }

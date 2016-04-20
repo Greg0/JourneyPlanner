@@ -73,4 +73,7 @@
     <splash src="resources/android/splash/drawable-port-xxhdpi-screen.png" density="port-xxhdpi"/>
     <splash src="resources/android/splash/drawable-port-xxxhdpi-screen.png" density="port-xxxhdpi"/>
   </platform>
+  <vs:plugin name="plugin.google.maps">
+    <param name="API_KEY_FOR_ANDROID" value="AIzaSyBpsPdpmJzEHcCDNS55pcDKJMRAMspwhJ4" />
+</vs:plugin>
 </widget>

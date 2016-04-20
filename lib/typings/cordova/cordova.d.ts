@@ -8,7 +8,6 @@
 
 /// <reference path="plugins/BatteryStatus.d.ts"/>
 /// <reference path="plugins/Camera.d.ts"/>
-// / <reference path="plugins/Contacts.d.ts"/>
 // / <reference path="plugins/Device.d.ts"/>
 // / <reference path="plugins/DeviceMotion.d.ts"/>
 // / <reference path="plugins/DeviceOrientation.d.ts"/>
@@ -16,6 +15,7 @@
 // / <reference path="plugins/FileSystem.d.ts"/>
 // / <reference path="plugins/FileTransfer.d.ts"/>
 // / <reference path="plugins/Globalization.d.ts"/>
+/// <reference path="plugins/Geolocation.d.ts"/>
 // / <reference path="plugins/InAppBrowser.d.ts"/>
 // / <reference path="plugins/Media.d.ts"/>
 // / <reference path="plugins/MediaCapture.d.ts"/>

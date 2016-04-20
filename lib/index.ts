@@ -1,5 +1,5 @@
 import 'ionic-sdk/release/js/ionic.bundle';
-import App from './app/index';
+import App from './app/index.ts';
 
 // Import the electron(desktop) bootstrap file
 import '!file?name=[name].js!./index.desktop.js';
