@@ -7,6 +7,17 @@
                     <i class="icon ion-navicon-round"></i>
                 </button>
             </ion-nav-buttons>
+            <ion-nav-buttons side="right">
+                <div class="item-input-inset">
+                    <label class="item-input-wrapper">
+                        <i class="icon ion-ios-search placeholder-icon"></i>
+                        <input type="search" placeholder="{{appCtrl.text}}" ng-focus="appCtrl.geolocate()" id="topBarSearchInput">
+                    </label>
+                    <button id="searchButton" class="button button-clear">
+                        <i class="icon ion-ios-search"></i>
+                    </button>
+                </div>
+            </ion-nav-buttons>
         </ion-nav-bar>
         <ion-nav-view name="content" animation="slide-left-right">
         </ion-nav-view>

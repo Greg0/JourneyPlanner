@@ -1,20 +1,36 @@
 export class HomeController {
-
+// http://plnkr.co/edit/nN7vktAwPc0FmM37byz5?p=preview
     maps:string;
     $injector: ng.auto.IInjectorService;
     $cordovaGeolocation: ngCordova.IGeolocationService;
     errorMsg:string;
     position:ngCordova.IGeoPosition;
 
-    constructor(private $injector:ng.auto.IInjectorService, public $scope:ng.IScope) {
+    constructor(private $injector:ng.auto.IInjectorService, public $scope:ng.IScope, $searchService: SearchService) {
         'ngInject';
         this.$injector = $injector;
         this.$scope = $scope;
         this.$cordovaGeolocation = this.$injector.get('$cordovaGeolocation');
         this.$scope.$on('$ionicView.enter', () => this.onEnter());
+        this.$searchService = this.$scope.$searchService;
+    }
+
+    center() {
+        console.log("centering");
+
+        var latLng = this.$searchService.$position;
+        this.maps.panTo(latLng);
     }
 
     onEnter() {
+        let searchBtn = document.getElementById('searchButton');
+
+        searchBtn.addEventListener('click', () => {
+            let latLng = this.$searchService.$position;
+            this.maps.panTo(latLng);
+        });
+
+        console.log(this.$searchService.$position);
         let targetDiv = document.getElementById("googleMap");
         this.maps = "hello";
         this.$cordovaGeolocation
@@ -24,7 +40,14 @@ export class HomeController {
                 this.position = position;
                 console.log(position);
 
-                var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                if (this.$searchService.$position !== undefined)
+                {
+                    var latLng = this.$searchService.$position;
+                }
+                else
+                {
+                    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                }
 
                 var mapOptions = {
                     center: latLng,
