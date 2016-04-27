@@ -7,31 +7,10 @@
                     <i class="icon ion-navicon-round"></i>
                 </button>
             </ion-nav-buttons>
-            <ion-nav-buttons side="right">
-                <div class="item-input-inset">
-                    <label class="item-input-wrapper">
-                        <i class="icon ion-ios-search placeholder-icon"></i>
-                        <input type="search" placeholder="{{appCtrl.text}}" ng-focus="appCtrl.geolocate()" id="topBarSearchInput">
-                    </label>
-                    <button id="searchButton" class="button button-clear">
-                        <i class="icon ion-ios-search"></i>
-                    </button>
-                </div>
-            </ion-nav-buttons>
+
         </ion-nav-bar>
         <ion-nav-view name="content" animation="slide-left-right">
         </ion-nav-view>
-        <ion-tabs class="tabs-positive tabs-icon-only">
-        		<ion-tab title="Map" icon="ion-map" ui-sref="app.home">
-        			<ion-nav-view name="tab-home"></ion-nav-view>
-        		</ion-tab>
-        		<ion-tab title="Places" icon="ion-location" ui-sref="app.places">
-        				<ion-nav-view name="tab-places"></ion-nav-view>
-        		</ion-tab>
-        		<ion-tab title="Routes" icon="ion-android-walk">
-        				<ion-nav-view name="tab-routes"></ion-nav-view>
-        		</ion-tab>
-        </ion-tabs>
     </ion-side-menu-content>
     <ion-side-menu side="left" ui-view="menu"></ion-side-menu>
 </ion-side-menus>

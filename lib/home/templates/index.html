@@ -1,5 +1,11 @@
 <ion-view>
-    <ion-nav-title>Home</ion-nav-title>
+    <ion-nav-buttons side="right">
+        <div class="item-input-inset">
+            <button id="searchButton" class="button button-clear" ng-click="$state.go('app.places')">
+                <i class="icon ion-ios-search"></i>
+            </button>
+        </div>
+    </ion-nav-buttons>
     <ion-content>
         <div id="googleMap" data-tap-disabled="true"></div>
     </ion-content>

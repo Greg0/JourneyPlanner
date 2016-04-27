@@ -10,18 +10,19 @@ import modRun from './run.ts';
 import modHome from '../home/index.ts';
 import modMenu from '../menu/index.ts';
 import modPlaces from '../places/index.ts';
+import modTabs from '../tabs/index.ts';
 
 // Style entry point
 import '../scss/bootstrap';
 
-modHome.service('$searchService', SearchService);
 // Create our crossPlatform module
 let mod = angular.module('crossPlatform', [
     'ionic',
     'ngCordova',
     modHome.name,
     modPlaces.name,
-    modMenu.name
+    modTabs.name,
+    modMenu.name,
 ]);
 // ROUTER CONFIG
 mod.config(modConfigRouter);

@@ -1,6 +1,6 @@
 export default function ($stateProvider:angular.ui.IStateProvider, $urlRouterProvider:angular.ui.IUrlRouterProvider) {
     'ngInject';
-    $stateProvider.state('app.home', {
+    $stateProvider.state('app.tabs.home', {
         url: "/home",
         views: {
             'tab-home': {
@@ -10,6 +10,7 @@ export default function ($stateProvider:angular.ui.IStateProvider, $urlRouterPro
         }
     });
     $stateProvider.state('app.search-results', {
+        cache: false,
         url: "/search-results",
         views: {
             'content@app': {

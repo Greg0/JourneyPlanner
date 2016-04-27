@@ -5,39 +5,63 @@ export class SearchResultsController {
     $cordovaGeolocation: ngCordova.IGeolocationService;
     errorMsg:string;
     position:ngCordova.IGeoPosition;
+    $state: angular.ui.IState;
+    bounds;
+    predictions;
+    query;
 
-    constructor(private $injector:ng.auto.IInjectorService, public $scope:ng.IScope) {
+    constructor(private $injector:ng.auto.IInjectorService, public $scope:ng.IScope, $state: angular.ui.IState) {
         'ngInject';
         this.$injector = $injector;
         this.$scope = $scope;
+        this.$state = $state;
         this.$cordovaGeolocation = this.$injector.get('$cordovaGeolocation');
         this.$scope.$on('$ionicView.enter', () => this.onEnter());
     }
 
-    onEnter() {
-        let targetDiv = document.getElementById("googleMap");
-        this.maps = "hello";
+    geolocate() {
+
         this.$cordovaGeolocation
             .getCurrentPosition(<ngCordova.IGeolocationOptions>{timeout: 10000, enableHighAccuracy: false})
             .then((position) => {
-                console.log("position found");
-                this.position = position;
-                console.log(position);
-
-                var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-                var mapOptions = {
-                    center: latLng,
-                    zoom: 1,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                var geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
                 };
+                var circle = new google.maps.Circle({
+                    center: geolocation,
+                    radius: position.coords.accuracy
+                });
 
-                this.maps = new google.maps.Map(targetDiv, mapOptions);
-                console.log('show');
+                this.bounds = circle.getBounds();
+                //this.$autocompleteService.setBounds(circle.getBounds());
+
             }, (err) => {
                 console.log("unable to find location");
-                this.errorMsg = "Error : " + err.message;
             });
+    }
+
+    search() {
+        this.$autocompleteService = new google.maps.places.AutocompleteService();
+        if(event.target.value.length == 0)
+        {
+            return false;
+        }
+        let ctrl = this;
+        this.$autocompleteService.getPlacePredictions({ input: event.target.value, bounds: this.bounds }, function(predictions, status) {
+            if (status != google.maps.places.PlacesServiceStatus.OK) {
+                alert(status);
+                return;
+            }
+
+            ctrl.predictions = predictions;
+            console.log(ctrl.predictions);
+            ctrl.$scope.$apply();
+        })
+    }
+
+    onEnter() {
+        this.geolocate();
     }
 
 }

@@ -6,7 +6,7 @@ export class HomeController {
     errorMsg:string;
     position:ngCordova.IGeoPosition;
 
-    constructor(private $injector:ng.auto.IInjectorService, public $scope:ng.IScope, $searchService: SearchService) {
+    constructor(private $injector:ng.auto.IInjectorService, public $scope:ng.IScope, public $state: angular.ui.IState) {
         'ngInject';
         this.$injector = $injector;
         this.$scope = $scope;
@@ -26,8 +26,7 @@ export class HomeController {
         let searchBtn = document.getElementById('searchButton');
 
         searchBtn.addEventListener('click', () => {
-            let latLng = this.$searchService.$position;
-            this.maps.panTo(latLng);
+            this.$state.go('app.search-results');
         });
 
         console.log(this.$searchService.$position);
