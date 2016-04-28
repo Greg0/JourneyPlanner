@@ -3,7 +3,6 @@ export class SearchResultsController {
     maps:string;
     $injector: ng.auto.IInjectorService;
     $cordovaGeolocation: ngCordova.IGeolocationService;
-    errorMsg:string;
     position:ngCordova.IGeoPosition;
     $state: angular.ui.IState;
     bounds;
@@ -19,8 +18,7 @@ export class SearchResultsController {
         this.$scope.$on('$ionicView.enter', () => this.onEnter());
     }
 
-    geolocate() {
-
+    loadBounds() {
         this.$cordovaGeolocation
             .getCurrentPosition(<ngCordova.IGeolocationOptions>{timeout: 10000, enableHighAccuracy: false})
             .then((position) => {
@@ -34,8 +32,6 @@ export class SearchResultsController {
                 });
 
                 this.bounds = circle.getBounds();
-                //this.$autocompleteService.setBounds(circle.getBounds());
-
             }, (err) => {
                 console.log("unable to find location");
             });
@@ -55,13 +51,11 @@ export class SearchResultsController {
             }
 
             ctrl.predictions = predictions;
-            console.log(ctrl.predictions);
             ctrl.$scope.$apply();
         })
     }
 
     onEnter() {
-        this.geolocate();
+        this.loadBounds();
     }
-
 }

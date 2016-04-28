@@ -1,37 +1,39 @@
+import {SearchService} from "../../app/searchService";
+import IonicHistoryService = ionic.navigation.IonicHistoryService;
 export class HomeController {
 // http://plnkr.co/edit/nN7vktAwPc0FmM37byz5?p=preview
-    maps:string;
+    maps;
+    errorMsg:string;
     $injector: ng.auto.IInjectorService;
     $cordovaGeolocation: ngCordova.IGeolocationService;
-    errorMsg:string;
     position:ngCordova.IGeoPosition;
+    $searchService: SearchService;
+    $state: angular.ui.IStateService;
+    $ionicHistory: IonicHistoryService;
 
-    constructor(private $injector:ng.auto.IInjectorService, public $scope:ng.IScope, public $state: angular.ui.IState) {
+    constructor(private $injector:ng.auto.IInjectorService,
+                public $scope:ng.IScope,
+                public $state: angular.ui.IStateService,
+                public $ionicHistory: IonicHistoryService) {
         'ngInject';
         this.$injector = $injector;
         this.$scope = $scope;
         this.$cordovaGeolocation = this.$injector.get('$cordovaGeolocation');
-        this.$scope.$on('$ionicView.enter', () => this.onEnter());
         this.$searchService = this.$scope.$searchService;
+        this.$state = $state;
+        this.$ionicHistory = $ionicHistory;
+        this.$scope.$on('$ionicView.enter', () => this.onEnter());
     }
 
-    center() {
-        console.log("centering");
-
-        var latLng = this.$searchService.$position;
-        this.maps.panTo(latLng);
+    processSearch() {
+        this.$ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+        this.$state.go('app.search-results');
     }
 
     onEnter() {
-        let searchBtn = document.getElementById('searchButton');
-
-        searchBtn.addEventListener('click', () => {
-            this.$state.go('app.search-results');
-        });
-
-        console.log(this.$searchService.$position);
         let targetDiv = document.getElementById("googleMap");
-        this.maps = "hello";
         this.$cordovaGeolocation
             .getCurrentPosition(<ngCordova.IGeolocationOptions>{timeout: 10000, enableHighAccuracy: false})
             .then((position) => {
@@ -60,6 +62,7 @@ export class HomeController {
                 console.log("unable to find location");
                 this.errorMsg = "Error : " + err.message;
             });
+        this.$scope.$apply();
     }
 
 }

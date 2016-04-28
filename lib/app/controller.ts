@@ -4,7 +4,9 @@ export class AppController {
     $autocomplete : google.maps.places.Autocomplete;
     $searchService: SearchService;
     $state: angular.ui.IState;
-    constructor(private $injector:ng.auto.IInjectorService, public $scope:ng.IScope, public $searchService: SearchService) {
+    constructor(private $injector:ng.auto.IInjectorService,
+                public $scope:ng.IScope,
+                public $searchService: SearchService) {
         'ngInject';
         this.$injector = $injector;
         this.$scope = $scope;
