@@ -4,17 +4,17 @@ export class HomeController {
 // http://plnkr.co/edit/nN7vktAwPc0FmM37byz5?p=preview
     maps;
     errorMsg:string;
-    $injector: ng.auto.IInjectorService;
-    $cordovaGeolocation: ngCordova.IGeolocationService;
+    $injector:ng.auto.IInjectorService;
+    $cordovaGeolocation:ngCordova.IGeolocationService;
     position:ngCordova.IGeoPosition;
-    $searchService: SearchService;
-    $state: angular.ui.IStateService;
-    $ionicHistory: IonicHistoryService;
+    $searchService:SearchService;
+    $state:angular.ui.IStateService;
+    $ionicHistory:IonicHistoryService;
 
     constructor(private $injector:ng.auto.IInjectorService,
                 public $scope:ng.IScope,
-                public $state: angular.ui.IStateService,
-                public $ionicHistory: IonicHistoryService) {
+                public $state:angular.ui.IStateService,
+                public $ionicHistory:IonicHistoryService) {
         'ngInject';
         this.$injector = $injector;
         this.$scope = $scope;
@@ -41,14 +41,7 @@ export class HomeController {
                 this.position = position;
                 console.log(position);
 
-                if (this.$searchService.$position !== undefined)
-                {
-                    var latLng = this.$searchService.$position;
-                }
-                else
-                {
-                    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                }
+                var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
                 var mapOptions = {
                     center: latLng,
@@ -58,6 +51,29 @@ export class HomeController {
 
                 this.maps = new google.maps.Map(targetDiv, mapOptions);
                 console.log('show');
+
+                if (this.$searchService.getPlaceId() !== null) {
+                    var request = {
+                        placeId: this.$searchService.getPlaceId()
+                    };
+
+                    let placesService = new google.maps.places.PlacesService(this.maps);
+                    placesService.getDetails(request, (place, status) => {
+                        if (status == google.maps.places.PlacesServiceStatus.OK) {
+                            let placeLocation = place.geometry.location;
+
+                            new google.maps.Marker({
+                                map: this.maps,
+                                position: placeLocation
+                            });
+                            this.maps.panTo(placeLocation);
+                        }
+                    });
+
+                    console.log('search place');
+                }
+
+
             }, (err) => {
                 console.log("unable to find location");
                 this.errorMsg = "Error : " + err.message;

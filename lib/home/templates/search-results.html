@@ -3,13 +3,13 @@
         <div class="item-input-inset">
             <label class="item-input-wrapper">
                 <i class="icon ion-ios-search placeholder-icon"></i>
-                <input type="search" ng-keyup="searchCtrl.search()">
+                <input id="searchInput" type="search" ng-keyup="searchCtrl.search()">
             </label>
         </div>
     </ion-nav-buttons>
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="item in searchCtrl.predictions">
+            <ion-item ng-repeat="item in searchCtrl.predictions" ng-click="searchCtrl.showResult(item)">
                 {{item.description}}
             </ion-item>
         </ion-list>

@@ -1,20 +1,30 @@
+import {SearchService} from "../../app/searchService";
+
+import IonicHistoryService = ionic.navigation.IonicHistoryService;
 export class SearchResultsController {
 
-    maps:string;
     $injector: ng.auto.IInjectorService;
     $cordovaGeolocation: ngCordova.IGeolocationService;
     position:ngCordova.IGeoPosition;
-    $state: angular.ui.IState;
+    $state: angular.ui.IStateService;
+    $searchService: SearchService;
+    $ionicHistory: IonicHistoryService;
     bounds;
     predictions;
     query;
 
-    constructor(private $injector:ng.auto.IInjectorService, public $scope:ng.IScope, $state: angular.ui.IState) {
+    constructor(private $injector:ng.auto.IInjectorService,
+                public $scope:ng.IScope,
+                $state: angular.ui.IState,
+                public $ionicHistory: IonicHistoryService) {
         'ngInject';
         this.$injector = $injector;
         this.$scope = $scope;
         this.$state = $state;
+
+        this.$ionicHistory = $ionicHistory;
         this.$cordovaGeolocation = this.$injector.get('$cordovaGeolocation');
+        this.$searchService = this.$scope.$searchService;
         this.$scope.$on('$ionicView.enter', () => this.onEnter());
     }
 
@@ -55,7 +65,21 @@ export class SearchResultsController {
         })
     }
 
+    showResult(item) {
+        let placeId = item.place_id;
+        this.$searchService.setPlaceId(placeId);
+
+
+        this.$ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+        this.$state.go('app.tabs.home');
+    }
+
     onEnter() {
         this.loadBounds();
+
+        let searchInput = document.getElementById('searchInput');
+        searchInput.focus();
     }
 }
