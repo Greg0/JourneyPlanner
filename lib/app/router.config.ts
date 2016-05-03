@@ -4,7 +4,8 @@ export default function($stateProvider) {
         abstract: true,
         views: {
             '@': {
-                template: require("./index.html")
+                template: require("./index.html"),
+                controller: "AppController as appCtrl"
             }
         }
     });
