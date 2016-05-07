@@ -1,6 +1,9 @@
 <ion-view>
     <ion-nav-buttons side="right">
         <div class="item-input-inset">
+            <button class="button button-clear" ng-class="{'active': homeCtrl.activeTask !== 'weather'}" nav-clear ng-click="homeCtrl.activateTask('weather')">
+                <i class="icon ion-ios-partlysunny"></i>
+            </button>
             <button class="button button-clear" nav-clear ng-click="homeCtrl.processSearch()">
                 <i class="icon ion-ios-search"></i>
             </button>
