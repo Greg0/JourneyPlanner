@@ -59,7 +59,8 @@
     "cordova-plugin-network-information",
     "cordova-plugin-spinner-dialog",
     "cordova-plugin-browsersync",
-    "cordova-plugin-geolocation"
+    "cordova-plugin-geolocation",
+    "plugin.google.maps"
   ],
   "cordovaPlatforms": [
     "android",

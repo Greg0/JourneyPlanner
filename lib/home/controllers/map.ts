@@ -10,6 +10,8 @@ export class HomeController {
     $searchService:SearchService;
     $state:angular.ui.IStateService;
     $ionicHistory:IonicHistoryService;
+    activeTask:string;
+    weatherMarker;
 
     constructor(private $injector:ng.auto.IInjectorService,
                 public $scope:ng.IScope,
@@ -25,6 +27,15 @@ export class HomeController {
         this.$scope.$on('$ionicView.enter', () => this.onEnter());
     }
 
+    activateTask(taskName) {
+        if (this.activeTask === taskName) {
+            this.activeTask = null;
+        }
+        else {
+            this.activeTask = taskName;
+        }
+    }
+
     processSearch() {
         this.$ionicHistory.nextViewOptions({
             disableBack: true
@@ -33,6 +44,61 @@ export class HomeController {
     }
 
     onEnter() {
+        this.loadMap();
+        this.$scope.$apply();
+    }
+
+    runTask(event) {
+        if (this.activeTask === 'weather') {
+            var lat = event.latLng.lat();
+            var lng = event.latLng.lng();
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lng + "&units=metric&lang=pl&appid=fbe3237e0b37df2af5117c11ef210a24");
+
+            xhr.onreadystatechange = (e) => {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        let response = JSON.parse(xhr.responseText);
+                        let temp = response.main.temp;
+                        let description = response.weather[0].description;
+                        let iconName = response.weather[0].icon;
+                        let iconAddr = "http://openweathermap.org/img/w/" + iconName + ".png";
+
+                        console.log("Temp: " + temp + "; Description: " + description);
+
+                        let image = {
+                            url: iconAddr,
+                            size: new google.maps.Size(50, 50),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(0, 50)
+                        };
+
+                        if (this.weatherMarker !== undefined) {
+                            this.weatherMarker.setMap(null);
+                        }
+
+                        this.weatherMarker = new google.maps.Marker({
+                            position: {lat: lat, lng: lng},
+                            map: this.maps,
+                            icon: image,
+                        });
+                    }
+                    else {
+                        console.log("Weather API problem");
+                    }
+                }
+            };
+
+            xhr.send(null);
+        }
+    }
+
+    addEvents() {
+        google.maps.event.addListener(this.maps, "click", this.runTask.bind(this));
+    }
+
+    loadMap() {
         let targetDiv = document.getElementById("googleMap");
         this.$cordovaGeolocation
             .getCurrentPosition(<ngCordova.IGeolocationOptions>{timeout: 10000, enableHighAccuracy: false})
@@ -51,6 +117,8 @@ export class HomeController {
 
                 this.maps = new google.maps.Map(targetDiv, mapOptions);
                 console.log('show');
+
+                this.addEvents();
 
                 if (this.$searchService.getPlaceId() !== null) {
                     var request = {
@@ -72,13 +140,10 @@ export class HomeController {
 
                     console.log('search place');
                 }
-
-
             }, (err) => {
                 console.log("unable to find location");
                 this.errorMsg = "Error : " + err.message;
             });
-        this.$scope.$apply();
     }
 
 }
